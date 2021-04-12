@@ -1,0 +1,7 @@
+README
+
+Data used is CIFAR-10 python dataset retrieved through
+    Kaggle at https://www.kaggle.com/pankrzysiu/cifar10-python
+
+Additional requirements to install with pip/conda:
+    pytorch, huggingface, transformers, comet_ml

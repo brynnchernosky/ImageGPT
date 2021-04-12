@@ -1,7 +1,9 @@
+from comet_ml import Experiment
 import torch
 import numpy as np
 from preprocess import *
-from transformers import GPT2Model, AdamW
+from transformers import GPT2LMHeadModel, GPT2Config, AdamW
+import argparse
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -65,14 +67,14 @@ if __name__ == "__main__":
                         help="sample")
     args = parser.parse_args()
 
-    model = GPT2Model()
+    model = GPT2LMHeadModel(GPT2Config(vocab_size=256)) #from 0-255
 
     optimizer = AdamW(model.parameters(),lr=hyperparameters["learning_rate"])
 
     if args.train or args.test:
         train_loader = load_dataset(args.train_file, hyperparameters["batch_size"])
         test_loader = load_dataset(args.test_file, hyperparameters["batch_size"])
-        experiment = Experiment(log_code=False)
+        experiment = Experiment(api_key="cdVj0ApyXZj7uxTF7EeCgH3cu", project_name="computer-vision", workspace="brynnchernosky", log_code=False)
         experiment.log_parameters(hyperparameters)
 
     if args.load:
