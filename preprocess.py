@@ -1,23 +1,20 @@
+from torch.utils.data import Dataset, DataLoader
 import numpy as np
 from skimage.io import imread
 import os
 from PIL import Image
 
-
-class Datasets():
-
-    def __init__(self, data_path, task):
+class ImageDataset(Dataset):
+    def __init__(self, data_path):
         self.data_path = data_path
-        self.task = task
-
-        self.data = np.zeros(
-            (200, 32, 32, 3))
 
         file_list = []
         for root, dirs, files in os.walk(self.data_path):
             for name in files:
                 if name.endswith(".jpg") or name.endswith(".png"):
                     file_list.append(os.path.join(root, name))
+        
+        self.data = np.zeros((len(file_list), 32, 32, 3))
 
         for i, file_path in enumerate(file_list):
             img = Image.open(file_path)
@@ -31,6 +28,17 @@ class Datasets():
 
             self.data[i] = img
     
-    def load_dataset(self, train, test):
-        self.inputs = self.data
-        self.labels = np.split(self.data, 2)[0]
+    def __len__(self):
+        return len(self.data)
+
+    def __getitem__(self, idx):
+        item = {
+            "input": self.data[idx]
+        }
+        return item
+    
+
+def load_dataset(file, batch_size):
+    data = ImageDataset(file)
+    loader = DataLoader(data,batch_size,shuffle=True)
+    return loader

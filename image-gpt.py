@@ -19,19 +19,13 @@ def train(model, train_loader, optimizer, experiment):
     with experiment.train():
         for i in range(hyperparameters["num_epochs"]):
             for batch in train_loader:
-                input,label = batch["input"],batch["label"]
+                input = batch["input"] #trains model to predict next pixel given previous pixels
                 optimizer.zero_grad()
-                output = model(input,labels=label)
-                logits = output[1]
-                prediction = torch.argmax(logits,dim=2)
-                #do something here!
+                output = model(input,labels=input)
+                mean_loss = output[0]
+                loss = mean_loss * (len(input[0])-1)
                 loss.backward()
                 optimizer.step()
-
-                accuracy = correct/total
-                perplexity = torch.exp(loss/total).item()
-                experiment.log_metric("accuracy", accuracy)
-                experiment.log_metric("perplexity", perplexity)
 
 def test(model, test_loader, experiment):
     model = model.eval()
@@ -40,15 +34,21 @@ def test(model, test_loader, experiment):
             input,label = batch["input"], batch["label"]
             with torch.no_grad():
                 output = model(input,labels=label)
+            print("Mean loss: ", output[0])
 
-            logits = output[1]
-            #do something here!
-            experiment.log_metric("accuracy", accuracy)
-            experiment.log_metric("perplexity", perplexity)
-
-def sample():
-    #do something here!
-
+def sample(image, pixels_to_predict):
+    #repeatedly predict next pixel
+    input = list(image) 
+    for i in range(pixels_to_predict):
+        with torch.no_grad():
+            output = model(np.array(input),labels=label)
+        logits = output[1]
+        prediction = np.argmax(logits, axis=2)
+        input.append(prediction)
+    #reshape to produce image
+    input = np.array(input)
+    input = np.reshape((32,32))
+        
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("train_file")
@@ -70,7 +70,8 @@ if __name__ == "__main__":
     optimizer = AdamW(model.parameters(),lr=hyperparameters["learning_rate"])
 
     if args.train or args.test:
-        train_loader, test_loader = load_dataset(args.train_file, args.test_file)
+        train_loader = load_dataset(args.train_file, hyperparameters["batch_size"])
+        test_loader = load_dataset(args.test_file, hyperparameters["batch_size"])
         experiment = Experiment(log_code=False)
         experiment.log_parameters(hyperparameters)
 
