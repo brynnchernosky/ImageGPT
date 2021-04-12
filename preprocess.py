@@ -3,30 +3,21 @@ import numpy as np
 from skimage.io import imread
 import os
 from PIL import Image
+import pickle
 
 class ImageDataset(Dataset):
     def __init__(self, data_path):
-        self.data_path = data_path
+        with open(data_path, 'rb') as fo:
+            dict = pickle.load(fo, encoding='bytes')
+        color_images = dict["data"] #10000x3072, "Each row of the array stores a 32x32 colour image. The first 1024 entries contain the red channel values, the next 1024 the green, and the final 1024 the blue. The image is stored in row-major order, so that the first 32 entries of the array are the red channel values of the first row of the image."
 
-        file_list = []
-        for root, dirs, files in os.walk(self.data_path):
-            for name in files:
-                if name.endswith(".jpg") or name.endswith(".png"):
-                    file_list.append(os.path.join(root, name))
-        
-        self.data = np.zeros((len(file_list), 32, 32, 3))
+        #coefficients for converting to grayscale from LUMA-REC.709
+        red_channels = color_images[:,:1024]*0.2125
+        green_channels = color_images[:,1024:2048]*0.7154
+        blue_channels = color_images[:,2048:]*0.0721
+        self.data = red_channels+green_channels+blue_channels #10000x1024
+        print(self.data[0,:50])
 
-        for i, file_path in enumerate(file_list):
-            img = Image.open(file_path)
-            img = img.resize((32, 32))
-            img = np.array(img, dtype=np.float32)
-            img /= 255.
-
-            # Converts Grayscale images to RGB through stacking if they're currently not
-            if len(img.shape) == 2:
-                img = np.stack([img, img, img], axis=-1)
-
-            self.data[i] = img
     
     def __len__(self):
         return len(self.data)
