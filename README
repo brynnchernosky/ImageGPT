@@ -1,5 +1,7 @@
 README
 
+Model is based on ImageGPT from "Generative Pretraining from Pixels"
+
 Data used is CIFAR-10 python dataset retrieved through
     Kaggle at https://www.kaggle.com/pankrzysiu/cifar10-python
 

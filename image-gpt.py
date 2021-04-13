@@ -8,12 +8,13 @@ import argparse
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 hyperparameters = {
-    "batch_size": 100,
-    "embedding_size": 500,
-    "num_heads": 12,
-    "num_layers": 12,
-    "num_epochs": 3,
-    "learning_rate": .001
+    "batch_size": 10,
+    "num_epochs": 1,
+    "learning_rate": .001,
+    "num_heads": 4,
+    "num_layers": 4,
+    "embedding_size": 200,
+    "num_images": 10000
 }
 
 def train(model, train_loader, optimizer, experiment):
@@ -21,7 +22,7 @@ def train(model, train_loader, optimizer, experiment):
     with experiment.train():
         for i in range(hyperparameters["num_epochs"]):
             for batch in train_loader:
-                input = batch["input"] #trains model to predict next pixel given previous pixels
+                input = batch["input"].to(device) #trains model to predict next pixel given previous pixels
                 optimizer.zero_grad()
                 output = model(input,labels=input)
                 mean_loss = output[0]
@@ -33,24 +34,26 @@ def test(model, test_loader, experiment):
     model = model.eval()
     with experiment.test():
         for batch in test_loader:
-            input,label = batch["input"], batch["label"]
+            input = batch["input"].to(device)
             with torch.no_grad():
-                output = model(input,labels=label)
-            print("Mean loss: ", output[0])
+                output = model(input,labels=input)
+            mean_loss = output[0]
+            loss = mean_loss * (len(input[0])-1)
+    experiment.end()
 
 def sample(image, pixels_to_predict):
     #repeatedly predict next pixel
-    input = list(image) 
+    input = list(image)
     for i in range(pixels_to_predict):
         with torch.no_grad():
-            output = model(np.array(input),labels=label)
+            output = model(np.array(input).to(device),labels=label)
         logits = output[1]
         prediction = np.argmax(logits, axis=2)
         input.append(prediction)
     #reshape to produce image
     input = np.array(input)
     input = np.reshape((32,32))
-        
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser() #code based on CS1460 Computational Linguistics argument parsing
     parser.add_argument("train_file")
@@ -67,13 +70,13 @@ if __name__ == "__main__":
                         help="sample")
     args = parser.parse_args()
 
-    model = GPT2LMHeadModel(GPT2Config(vocab_size=256)) #from 0-255
+    model = GPT2LMHeadModel(GPT2Config(vocab_size=256,n_embd=hyperparameters["embedding_size"],n_layer=hyperparameters["num_layers"],n_head=hyperparameters["num_heads"])).to(device) #from 0-255
 
     optimizer = AdamW(model.parameters(),lr=hyperparameters["learning_rate"])
 
     if args.train or args.test:
-        train_loader = load_dataset(args.train_file, hyperparameters["batch_size"])
-        test_loader = load_dataset(args.test_file, hyperparameters["batch_size"])
+        train_loader = load_dataset(args.train_file, hyperparameters["batch_size"], hyperparameters["num_images"])
+        test_loader = load_dataset(args.test_file, hyperparameters["batch_size"], hyperparameters["num_images"])
         experiment = Experiment(api_key="cdVj0ApyXZj7uxTF7EeCgH3cu", project_name="computer-vision", workspace="brynnchernosky", log_code=False)
         experiment.log_parameters(hyperparameters)
 
