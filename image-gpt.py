@@ -8,13 +8,13 @@ import argparse
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 hyperparameters = {
-    "batch_size": 20,
+    "batch_size": 10,
     "num_epochs": 1,
     "learning_rate": .001,
     "num_heads": 4,
     "num_layers": 4,
     "embedding_size": 200,
-    "num_images": 1000
+    "num_images": 10000
 }
 
 def train(model, train_loader, optimizer, experiment):
@@ -37,7 +37,9 @@ def test(model, test_loader, experiment):
             input = batch["input"].to(device)
             with torch.no_grad():
                 output = model(input,labels=input)
-            print("Mean loss: ", output[0])
+            mean_loss = output[0]
+            loss = mean_loss * (len(input[0])-1)
+    experiment.end()
 
 def sample(image, pixels_to_predict):
     #repeatedly predict next pixel
