@@ -52,7 +52,7 @@ def sample(image, pixels_to_predict):
     input = np.reshape((32,32))
         
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser() #code based on CS1460 Computational Linguistics argument parsing
     parser.add_argument("train_file")
     parser.add_argument("test_file")
     parser.add_argument("-l", "--load", action="store_true",
