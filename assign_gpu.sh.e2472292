@@ -1,0 +1,66 @@
+COMET INFO: Experiment is live on comet.ml https://www.comet.ml/brynnchernosky/computer-vision/b7c24386c0d448dda3614d308ea2edbe
+
+Traceback (most recent call last):
+  File "image-gpt.py", line 83, in <module>
+    train(model, train_loader, optimizer, experiment)
+  File "image-gpt.py", line 26, in train
+    output = model(input,labels=input)
+  File "/gpfs/main/course/cs1460/public/cs146-gpu-env/lib/python3.7/site-packages/torch/nn/modules/module.py", line 727, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "/gpfs/main/course/cs1460/public/cs146-gpu-env/lib/python3.7/site-packages/transformers/models/gpt2/modeling_gpt2.py", line 912, in forward
+    return_dict=return_dict,
+  File "/gpfs/main/course/cs1460/public/cs146-gpu-env/lib/python3.7/site-packages/torch/nn/modules/module.py", line 727, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "/gpfs/main/course/cs1460/public/cs146-gpu-env/lib/python3.7/site-packages/transformers/models/gpt2/modeling_gpt2.py", line 755, in forward
+    output_attentions=output_attentions,
+  File "/gpfs/main/course/cs1460/public/cs146-gpu-env/lib/python3.7/site-packages/torch/nn/modules/module.py", line 727, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "/gpfs/main/course/cs1460/public/cs146-gpu-env/lib/python3.7/site-packages/transformers/models/gpt2/modeling_gpt2.py", line 295, in forward
+    output_attentions=output_attentions,
+  File "/gpfs/main/course/cs1460/public/cs146-gpu-env/lib/python3.7/site-packages/torch/nn/modules/module.py", line 727, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "/gpfs/main/course/cs1460/public/cs146-gpu-env/lib/python3.7/site-packages/transformers/models/gpt2/modeling_gpt2.py", line 240, in forward
+    attn_outputs = self._attn(query, key, value, attention_mask, head_mask, output_attentions)
+  File "/gpfs/main/course/cs1460/public/cs146-gpu-env/lib/python3.7/site-packages/transformers/models/gpt2/modeling_gpt2.py", line 169, in _attn
+    w = w / (float(v.size(-1)) ** 0.5)
+RuntimeError: CUDA out of memory. Tried to allocate 1.56 GiB (GPU 0; 10.73 GiB total capacity; 9.69 GiB already allocated; 5.56 MiB free; 9.73 GiB reserved in total by PyTorch)
+COMET INFO: ----------------------------
+COMET INFO: Comet.ml Experiment Summary:
+COMET INFO:   Data:
+COMET INFO:     url: https://www.comet.ml/brynnchernosky/computer-vision/b7c24386c0d448dda3614d308ea2edbe
+COMET INFO:   Metrics [count] (min, max):
+COMET INFO:     sys.gpu.0.total_memory         : (11523260416.0, 11523260416.0)
+COMET INFO:     sys.gpu.1.total_memory         : (11523260416.0, 11523260416.0)
+COMET INFO:     sys.gpu.2.total_memory         : (11523260416.0, 11523260416.0)
+COMET INFO:     sys.gpu.3.total_memory         : (11523260416.0, 11523260416.0)
+COMET INFO:     sys.gpu.4.total_memory         : (11523260416.0, 11523260416.0)
+COMET INFO:     sys.gpu.5.total_memory         : (11523260416.0, 11523260416.0)
+COMET INFO:     sys.gpu.6.total_memory         : (11523260416.0, 11523260416.0)
+COMET INFO:     sys.gpu.7.total_memory         : (11523260416.0, 11523260416.0)
+COMET INFO:     train_sys.gpu.0.free_memory    : (4076404736.0, 4076404736.0)
+COMET INFO:     train_sys.gpu.0.gpu_utilization: (6.0, 6.0)
+COMET INFO:     train_sys.gpu.0.used_memory    : (7446855680.0, 7446855680.0)
+COMET INFO:     train_sys.gpu.1.free_memory    : (11523194880.0, 11523194880.0)
+COMET INFO:     train_sys.gpu.1.gpu_utilization: (0.0, 0.0)
+COMET INFO:     train_sys.gpu.1.used_memory    : (65536.0, 65536.0)
+COMET INFO:     train_sys.gpu.2.free_memory    : (10439163904.0, 10439163904.0)
+COMET INFO:     train_sys.gpu.2.gpu_utilization: (0.0, 0.0)
+COMET INFO:     train_sys.gpu.2.used_memory    : (1084096512.0, 1084096512.0)
+COMET INFO:     train_sys.gpu.3.free_memory    : (5531828224.0, 5531828224.0)
+COMET INFO:     train_sys.gpu.3.gpu_utilization: (0.0, 0.0)
+COMET INFO:     train_sys.gpu.3.used_memory    : (5991432192.0, 5991432192.0)
+COMET INFO:     train_sys.gpu.4.free_memory    : (2147024896.0, 2147024896.0)
+COMET INFO:     train_sys.gpu.4.gpu_utilization: (59.0, 59.0)
+COMET INFO:     train_sys.gpu.4.used_memory    : (9376235520.0, 9376235520.0)
+COMET INFO:     train_sys.gpu.5.free_memory    : (8641904640.0, 8641904640.0)
+COMET INFO:     train_sys.gpu.5.gpu_utilization: (0.0, 0.0)
+COMET INFO:     train_sys.gpu.5.used_memory    : (2881355776.0, 2881355776.0)
+COMET INFO:     train_sys.gpu.6.free_memory    : (11003297792.0, 11003297792.0)
+COMET INFO:     train_sys.gpu.6.gpu_utilization: (2.0, 2.0)
+COMET INFO:     train_sys.gpu.6.used_memory    : (519962624.0, 519962624.0)
+COMET INFO:     train_sys.gpu.7.free_memory    : (2138636288.0, 2138636288.0)
+COMET INFO:     train_sys.gpu.7.gpu_utilization: (62.0, 62.0)
+COMET INFO:     train_sys.gpu.7.used_memory    : (9384624128.0, 9384624128.0)
+COMET INFO: ----------------------------
+COMET INFO: Uploading stats to Comet before program termination (may take several seconds)
+COMET INFO: Still uploading

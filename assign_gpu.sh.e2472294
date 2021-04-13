@@ -1,0 +1,41 @@
+COMET INFO: Experiment is live on comet.ml https://www.comet.ml/brynnchernosky/computer-vision/0a15e99b303c451fa571d46653057d86
+
+COMET INFO: ----------------------------
+COMET INFO: Comet.ml Experiment Summary:
+COMET INFO:   Data:
+COMET INFO:     url: https://www.comet.ml/brynnchernosky/computer-vision/0a15e99b303c451fa571d46653057d86
+COMET INFO:   Metrics [count] (min, max):
+COMET INFO:     sys.gpu.0.total_memory         : (11523260416.0, 11523260416.0)
+COMET INFO:     sys.gpu.1.total_memory         : (11523260416.0, 11523260416.0)
+COMET INFO:     sys.gpu.2.total_memory         : (11523260416.0, 11523260416.0)
+COMET INFO:     sys.gpu.3.total_memory         : (11523260416.0, 11523260416.0)
+COMET INFO:     sys.gpu.4.total_memory         : (11523260416.0, 11523260416.0)
+COMET INFO:     sys.gpu.5.total_memory         : (11523260416.0, 11523260416.0)
+COMET INFO:     sys.gpu.6.total_memory         : (11523260416.0, 11523260416.0)
+COMET INFO:     sys.gpu.7.total_memory         : (11523260416.0, 11523260416.0)
+COMET INFO:     train_loss [5]                 : (4376.16064453125, 5682.09521484375)
+COMET INFO:     train_sys.gpu.0.free_memory    : (4076404736.0, 4076404736.0)
+COMET INFO:     train_sys.gpu.0.gpu_utilization: (0.0, 0.0)
+COMET INFO:     train_sys.gpu.0.used_memory    : (7446855680.0, 7446855680.0)
+COMET INFO:     train_sys.gpu.1.free_memory    : (11523194880.0, 11523194880.0)
+COMET INFO:     train_sys.gpu.1.gpu_utilization: (0.0, 0.0)
+COMET INFO:     train_sys.gpu.1.used_memory    : (65536.0, 65536.0)
+COMET INFO:     train_sys.gpu.2.free_memory    : (11511857152.0, 11511857152.0)
+COMET INFO:     train_sys.gpu.2.gpu_utilization: (0.0, 0.0)
+COMET INFO:     train_sys.gpu.2.used_memory    : (11403264.0, 11403264.0)
+COMET INFO:     train_sys.gpu.3.free_memory    : (5531828224.0, 5531828224.0)
+COMET INFO:     train_sys.gpu.3.gpu_utilization: (0.0, 0.0)
+COMET INFO:     train_sys.gpu.3.used_memory    : (5991432192.0, 5991432192.0)
+COMET INFO:     train_sys.gpu.4.free_memory    : (2147024896.0, 2147024896.0)
+COMET INFO:     train_sys.gpu.4.gpu_utilization: (53.0, 53.0)
+COMET INFO:     train_sys.gpu.4.used_memory    : (9376235520.0, 9376235520.0)
+COMET INFO:     train_sys.gpu.5.free_memory    : (11523194880.0, 11523194880.0)
+COMET INFO:     train_sys.gpu.5.gpu_utilization: (0.0, 0.0)
+COMET INFO:     train_sys.gpu.5.used_memory    : (65536.0, 65536.0)
+COMET INFO:     train_sys.gpu.6.free_memory    : (10439163904.0, 10439163904.0)
+COMET INFO:     train_sys.gpu.6.gpu_utilization: (0.0, 0.0)
+COMET INFO:     train_sys.gpu.6.used_memory    : (1084096512.0, 1084096512.0)
+COMET INFO:     train_sys.gpu.7.free_memory    : (2138636288.0, 2138636288.0)
+COMET INFO:     train_sys.gpu.7.gpu_utilization: (50.0, 50.0)
+COMET INFO:     train_sys.gpu.7.used_memory    : (9384624128.0, 9384624128.0)
+COMET INFO: ----------------------------
