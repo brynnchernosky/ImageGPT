@@ -19,9 +19,7 @@ class ImageDataset(Dataset):
         self.data[self.data>255]=255
         self.data = self.data[:num_images,:]
         #10000x1024, values from 0-255
-
-        #CREATE ATTENTION MASK
-
+        
     def __len__(self):
         return len(self.data)
 

@@ -70,7 +70,7 @@ if __name__ == "__main__":
                         help="sample")
     args = parser.parse_args()
 
-    model = GPT2LMHeadModel(GPT2Config(vocab_size=256,n_embd=hyperparameters["embedding_size"],n_layer=hyperparameters["num_layers"],n_head=hyperparameters["num_heads"])).to(device) #from 0-255
+    model = GPT2LMHeadModel(GPT2Config(vocab_size=256,n_embd=hyperparameters["embedding_size"],n_layer=hyperparameters["num_layers"],n_head=hyperparameters["num_heads"])).to(device)
 
     optimizer = AdamW(model.parameters(),lr=hyperparameters["learning_rate"])
 
