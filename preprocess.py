@@ -8,7 +8,11 @@ class ImageDataset(Dataset):
     def __init__(self, data_path,num_images):
         with open(data_path, 'rb') as fo:
             dict = pickle.load(fo, encoding='bytes')
-        color_images = dict[b'data'] #10000x3072, "Each row of the array stores a 32x32 colour image. The first 1024 entries contain the red channel values, the next 1024 the green, and the final 1024 the blue. The image is stored in row-major order, so that the first 32 entries of the array are the red channel values of the first row of the image."
+        color_images = dict[b'data'] 
+        #10000x3072, "Each row of the array stores a 32x32 colour image. 
+        # The first 1024 entries contain the red channel values, the next 1024 the green, 
+        # and the final 1024 the blue. The image is stored in row-major order, 
+        # so that the first 32 entries of the array are the red channel values of the first row of the image."
 
         #coefficients for converting to grayscale from LUMA-REC.709
         red_channels = color_images[:,:1024]*0.2125
