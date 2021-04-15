@@ -8,7 +8,7 @@ import argparse
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 hyperparameters = {
-    "batch_size": 10,
+    "batch_size": 30,
     "num_epochs": 1,
     "learning_rate": .001,
     "num_heads": 4,
