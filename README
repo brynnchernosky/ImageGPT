@@ -5,5 +5,11 @@ Model is based on ImageGPT from "Generative Pretraining from Pixels"
 Data used is CIFAR-10 python dataset retrieved through
     Kaggle at https://www.kaggle.com/pankrzysiu/cifar10-python
 
-Additional requirements to install with pip/conda:
+Environment requirements:
     pytorch, huggingface, transformers, comet_ml
+
+To train/save/test:
+    python3 image-gpt.py -sTt data/data_batch_1 data/data_batch_2 data/data_batch_3 data/data_batch_4 data/data_batch_5
+
+To load/sample:
+    python3 image-gpt.py -lS data/data_batch_1 data/data_batch_2 data/data_batch_3 data/data_batch_4 data/data_batch_5

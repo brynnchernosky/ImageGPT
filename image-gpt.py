@@ -10,11 +10,11 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 hyperparameters = {
     "batch_size": 10,
-    "num_epochs": 5,
-    "learning_rate": .0001,
-    "num_heads": 4,
-    "num_layers": 4,
-    "embedding_size": 200
+    "num_epochs": 3,
+    "learning_rate": .001,
+    "num_heads": 5,
+    "num_layers": 5,
+    "embedding_size": 300
 }
 
 def train(model, train_loader, optimizer, experiment):
@@ -42,19 +42,21 @@ def test(model, test_loader, experiment):
     experiment.end()
 
 def sample(model, test_loader):
+    model = model.to('cpu')
     for batch in test_loader:
         input = batch["input"] #10000, 1024
-        input = list(input[0,:]) #512
+        input = input[0,:512] #512
         #repeatedly predict next pixel
         for i in range(512):
             with torch.no_grad():
-                output = model(np.array(input).to(device),labels=label)
-            logits = output[1]
-            prediction = np.argmax(logits, axis=2)
-            input.append(prediction)
+                output = model(input,labels=input)
+            logits = output[1][-1]
+            prediction = np.array([np.argmax(logits)])
+            input = np.concatenate((input,prediction),axis=0)
+            input = torch.LongTensor(input)
         #reshape to produce image
         input = np.array(input)
-        input = np.reshape((32,32))
+        input = np.reshape(input,(32,32))
         #display image
         plt.imshow(input)
         plt.show()
@@ -82,17 +84,15 @@ if __name__ == "__main__":
 
     optimizer = AdamW(model.parameters(),lr=hyperparameters["learning_rate"])
 
-    if args.train or args.test:
-        train_loader,test_loader = load_dataset([args.file1, args.file2, args.file3, args.file4, args.file5], hyperparameters["batch_size"])
-        experiment = Experiment(api_key="cdVj0ApyXZj7uxTF7EeCgH3cu", project_name="computer-vision", workspace="brynnchernosky", log_code=False)
-        experiment.log_parameters(hyperparameters)
-
+    experiment = Experiment(api_key="cdVj0ApyXZj7uxTF7EeCgH3cu", project_name="computer-vision", workspace="brynnchernosky", log_code=False)
+    experiment.log_parameters(hyperparameters)
+    train_loader,test_loader = load_dataset([args.file1, args.file2, args.file3, args.file4, args.file5], hyperparameters["batch_size"])
     if args.load:
-        model.load_state_dict(torch.load('model.pt'))
+        model.load_state_dict(torch.load('model_a.pt',map_location=torch.device('cpu')))
     if args.train:
         train(model, train_loader, optimizer, experiment)
     if args.save:
-        torch.save(model.state_dict(), 'model.pt')
+        torch.save(model.state_dict(), 'model_b.pt')
     if args.test:
         test(model, test_loader, experiment)
     if args.sample:
