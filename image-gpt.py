@@ -8,13 +8,12 @@ import argparse
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 hyperparameters = {
-    "batch_size": 30,
-    "num_epochs": 1,
-    "learning_rate": .001,
+    "batch_size": 10,
+    "num_epochs": 5,
+    "learning_rate": .0001,
     "num_heads": 4,
     "num_layers": 4,
-    "embedding_size": 200,
-    "num_images": 10000
+    "embedding_size": 200
 }
 
 def train(model, train_loader, optimizer, experiment):
@@ -56,8 +55,11 @@ def sample(image, pixels_to_predict):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser() #code based on CS1460 Computational Linguistics argument parsing
-    parser.add_argument("train_file")
-    parser.add_argument("test_file")
+    parser.add_argument("file1")
+    parser.add_argument("file2")
+    parser.add_argument("file3")
+    parser.add_argument("file4")
+    parser.add_argument("file5")
     parser.add_argument("-l", "--load", action="store_true",
                         help="load model.pt")
     parser.add_argument("-s", "--save", action="store_true",
@@ -75,8 +77,7 @@ if __name__ == "__main__":
     optimizer = AdamW(model.parameters(),lr=hyperparameters["learning_rate"])
 
     if args.train or args.test:
-        train_loader = load_dataset(args.train_file, hyperparameters["batch_size"], hyperparameters["num_images"])
-        test_loader = load_dataset(args.test_file, hyperparameters["batch_size"], hyperparameters["num_images"])
+        train_loader,test_loader = load_dataset([args.file1, args.file2, args.file3, args.file4, args.file5], hyperparameters["batch_size"])
         experiment = Experiment(api_key="cdVj0ApyXZj7uxTF7EeCgH3cu", project_name="computer-vision", workspace="brynnchernosky", log_code=False)
         experiment.log_parameters(hyperparameters)
 

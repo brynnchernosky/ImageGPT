@@ -1,17 +1,17 @@
-from torch.utils.data import Dataset, DataLoader
+from torch.utils.data import Dataset, DataLoader, ConcatDataset, random_split
 import numpy as np
 import os
 from PIL import Image
 import pickle
 
 class ImageDataset(Dataset):
-    def __init__(self, data_path,num_images):
+    def __init__(self, data_path):
         with open(data_path, 'rb') as fo:
             dict = pickle.load(fo, encoding='bytes')
-        color_images = dict[b'data'] 
-        #10000x3072, "Each row of the array stores a 32x32 colour image. 
-        # The first 1024 entries contain the red channel values, the next 1024 the green, 
-        # and the final 1024 the blue. The image is stored in row-major order, 
+        color_images = dict[b'data']
+        #10000x3072, "Each row of the array stores a 32x32 colour image.
+        # The first 1024 entries contain the red channel values, the next 1024 the green,
+        # and the final 1024 the blue. The image is stored in row-major order,
         # so that the first 32 entries of the array are the red channel values of the first row of the image."
 
         #coefficients for converting to grayscale from LUMA-REC.709
@@ -21,10 +21,8 @@ class ImageDataset(Dataset):
         self.data = (red_channels+green_channels+blue_channels).astype(int)
         self.data[self.data<0]=0
         self.data[self.data>255]=255
-        self.data = self.data[:num_images,:]
+        self.data = self.data[:,:]
         #10000x1024, values from 0-255
-
-        #CREATE ATTENTION MASK
 
     def __len__(self):
         return len(self.data)
@@ -35,7 +33,12 @@ class ImageDataset(Dataset):
         }
         return item
 
-def load_dataset(file, batch_size, num_images):
-    data = ImageDataset(file,num_images)
-    loader = DataLoader(data,batch_size,shuffle=True)
-    return loader
+def load_dataset(files, batch_size):
+    data = []
+    for file in files:
+        data.append(ImageDataset(file))
+    data = ConcatDataset(data)
+    train_data, test_data = random_split(data,[int(len(data)*.9),len(data)-int(len(data)*.9)])
+    train_loader = DataLoader(train_data,batch_size=batch_size,shuffle=True)
+    test_loader = DataLoader(test_data,batch_size=batch_size,shuffle=True)
+    return train_loader,test_loader
