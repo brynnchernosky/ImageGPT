@@ -23,7 +23,7 @@ class ImageDataset(Dataset):
         self.data[self.data>255]=255
         self.data = self.data[:,:]
         #10000x1024, values from 0-255
-
+        
     def __len__(self):
         return len(self.data)
 

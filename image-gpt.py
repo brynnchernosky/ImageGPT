@@ -4,6 +4,7 @@ import numpy as np
 from preprocess import *
 from transformers import GPT2LMHeadModel, GPT2Config, AdamW
 import argparse
+import matplotlib.pyplot as plt
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -40,18 +41,23 @@ def test(model, test_loader, experiment):
             loss = mean_loss * (len(input[0])-1)
     experiment.end()
 
-def sample(image, pixels_to_predict):
-    #repeatedly predict next pixel
-    input = list(image)
-    for i in range(pixels_to_predict):
-        with torch.no_grad():
-            output = model(np.array(input).to(device),labels=label)
-        logits = output[1]
-        prediction = np.argmax(logits, axis=2)
-        input.append(prediction)
-    #reshape to produce image
-    input = np.array(input)
-    input = np.reshape((32,32))
+def sample(model, test_loader):
+    for batch in test_loader:
+        input = batch["input"] #10000, 1024
+        input = list(input[0,:]) #512
+        #repeatedly predict next pixel
+        for i in range(512):
+            with torch.no_grad():
+                output = model(np.array(input).to(device),labels=label)
+            logits = output[1]
+            prediction = np.argmax(logits, axis=2)
+            input.append(prediction)
+        #reshape to produce image
+        input = np.array(input)
+        input = np.reshape((32,32))
+        #display image
+        plt.imshow(input)
+        plt.show()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser() #code based on CS1460 Computational Linguistics argument parsing
@@ -72,7 +78,7 @@ if __name__ == "__main__":
                         help="sample")
     args = parser.parse_args()
 
-    model = GPT2LMHeadModel(GPT2Config(vocab_size=256,n_embd=hyperparameters["embedding_size"],n_layer=hyperparameters["num_layers"],n_head=hyperparameters["num_heads"])).to(device) #from 0-255
+    model = GPT2LMHeadModel(GPT2Config(vocab_size=256,n_embd=hyperparameters["embedding_size"],n_layer=hyperparameters["num_layers"],n_head=hyperparameters["num_heads"])).to(device)
 
     optimizer = AdamW(model.parameters(),lr=hyperparameters["learning_rate"])
 
@@ -90,4 +96,4 @@ if __name__ == "__main__":
     if args.test:
         test(model, test_loader, experiment)
     if args.sample:
-        sample()
+        sample(model, test_loader)
