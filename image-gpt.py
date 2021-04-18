@@ -14,11 +14,11 @@ os.environ['KMP_DUPLICATE_LIB_OK']='True'
 
 hyperparameters = {
     "batch_size": 10,
-    "num_epochs": 3,
+    "num_epochs": 10,
     "learning_rate": .001,
-    "num_heads": 5,
-    "num_layers": 5,
-    "embedding_size": 300
+    "num_heads": 12,
+    "num_layers": 12,
+    "embedding_size": 768
 }
 
 def train(model, train_loader, optimizer, experiment):
