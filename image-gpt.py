@@ -8,6 +8,10 @@ import matplotlib.pyplot as plt
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
+import os
+
+os.environ['KMP_DUPLICATE_LIB_OK']='True'
+
 hyperparameters = {
     "batch_size": 10,
     "num_epochs": 3,
