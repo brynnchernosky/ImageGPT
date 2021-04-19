@@ -19,7 +19,7 @@ class ImageDataset(Dataset):
         self.data[self.data<0]=0
         self.data[self.data>255]=255
         #10000x1024, values from 0-255
-        
+
     def __len__(self):
         return len(self.data)
 
@@ -33,7 +33,7 @@ def load_dataset(files, batch_size):
     train_data = []
     test_data = []
     for file in files:
-        with open(data_path, 'rb') as fo:
+        with open(file, 'rb') as fo:
             dict = pickle.load(fo, encoding='bytes')
         color_images = dict[b'data']
 
