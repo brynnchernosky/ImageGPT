@@ -5,10 +5,7 @@ from PIL import Image
 import pickle
 
 class ImageDataset(Dataset):
-    def __init__(self, data_path):
-        with open(data_path, 'rb') as fo:
-            dict = pickle.load(fo, encoding='bytes')
-        color_images = dict[b'data']
+    def __init__(self, color_images):
         #10000x3072, "Each row of the array stores a 32x32 colour image.
         # The first 1024 entries contain the red channel values, the next 1024 the green,
         # and the final 1024 the blue. The image is stored in row-major order,
@@ -21,7 +18,6 @@ class ImageDataset(Dataset):
         self.data = (red_channels+green_channels+blue_channels).astype(int)
         self.data[self.data<0]=0
         self.data[self.data>255]=255
-        self.data = self.data[:,:]
         #10000x1024, values from 0-255
         
     def __len__(self):
@@ -34,11 +30,20 @@ class ImageDataset(Dataset):
         return item
 
 def load_dataset(files, batch_size):
-    data = []
+    train_data = []
+    test_data = []
     for file in files:
-        data.append(ImageDataset(file))
-    data = ConcatDataset(data)
-    train_data, test_data = random_split(data,[int(len(data)*.9),len(data)-int(len(data)*.9)])
+        with open(data_path, 'rb') as fo:
+            dict = pickle.load(fo, encoding='bytes')
+        color_images = dict[b'data']
+
+        train = ImageDataset(color_images[:9000,:])
+        test = ImageDataset(color_images[9000:,:])
+        train_data.append(train)
+        test_data.append(test)
+    train_data = ConcatDataset(train_data)
+    test_data = ConcatDataset(test_data)
+
     train_loader = DataLoader(train_data,batch_size=batch_size,shuffle=True)
     test_loader = DataLoader(test_data,batch_size=batch_size,shuffle=True)
     return train_loader,test_loader
