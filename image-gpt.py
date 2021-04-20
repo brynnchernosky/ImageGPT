@@ -16,9 +16,9 @@ hyperparameters = {
     "batch_size": 10,
     "num_epochs": 10,
     "learning_rate": .001,
-    "num_heads": 12,
-    "num_layers": 12,
-    "embedding_size": 1024
+    "num_heads": 10,
+    "num_layers": 10,
+    "embedding_size": 300
 }
 
 def train(model, train_loader, optimizer, experiment):
