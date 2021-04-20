@@ -17,11 +17,11 @@ torch.cuda.empty_cache()
 
 hyperparameters = {
     "batch_size": 10,
-    "num_epochs": 10,
+    "num_epochs": 16,
     "learning_rate": .001,
-    "num_heads": 8,
-    "num_layers": 8,
-    "embedding_size": 768
+    "num_heads": 5,
+    "num_layers": 5,
+    "embedding_size": 300
 }
 
 def train(model, train_loader, optimizer, experiment):
