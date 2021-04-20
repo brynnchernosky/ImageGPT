@@ -18,7 +18,7 @@ hyperparameters = {
     "learning_rate": .001,
     "num_heads": 12,
     "num_layers": 12,
-    "embedding_size": 300
+    "embedding_size": 768
 }
 
 def train(model, train_loader, optimizer, experiment):
