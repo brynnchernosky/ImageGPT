@@ -14,7 +14,7 @@ os.environ['KMP_DUPLICATE_LIB_OK']='True'
 
 hyperparameters = {
     "batch_size": 10,
-    "num_epochs": 5,
+    "num_epochs": 8,
     "learning_rate": .001,
     "num_heads": 5,
     "num_layers": 5,
@@ -92,11 +92,11 @@ if __name__ == "__main__":
     experiment.log_parameters(hyperparameters)
     train_loader,test_loader = load_dataset([args.file1, args.file2, args.file3, args.file4, args.file5], hyperparameters["batch_size"])
     if args.load:
-        model.load_state_dict(torch.load('model_a.pt',map_location=torch.device('cpu')))
+        model.load_state_dict(torch.load('model_b.pt',map_location=torch.device('cpu')))
     if args.train:
         train(model, train_loader, optimizer, experiment)
     if args.save:
-        torch.save(model.state_dict(), 'model_b.pt')
+        torch.save(model.state_dict(), 'model_a.pt')
     if args.test:
         test(model, test_loader, experiment)
     if args.sample:
