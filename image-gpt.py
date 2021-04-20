@@ -14,10 +14,10 @@ os.environ['KMP_DUPLICATE_LIB_OK']='True'
 
 hyperparameters = {
     "batch_size": 10,
-    "num_epochs": 5,
+    "num_epochs": 10,
     "learning_rate": .001,
-    "num_heads": 5,
-    "num_layers": 5,
+    "num_heads": 12,
+    "num_layers": 12,
     "embedding_size": 300
 }
 
