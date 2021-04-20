@@ -16,8 +16,8 @@ hyperparameters = {
     "batch_size": 10,
     "num_epochs": 10,
     "learning_rate": .001,
-    "num_heads": 10,
-    "num_layers": 10,
+    "num_heads": 8,
+    "num_layers": 8,
     "embedding_size": 768
 }
 
