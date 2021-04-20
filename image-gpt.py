@@ -12,6 +12,9 @@ import os
 
 os.environ['KMP_DUPLICATE_LIB_OK']='True'
 
+torch.cuda.empty_cache()
+
+
 hyperparameters = {
     "batch_size": 10,
     "num_epochs": 10,
