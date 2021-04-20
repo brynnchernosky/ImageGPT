@@ -49,9 +49,9 @@ def sample(model, test_loader):
     model = model.to('cpu')
     for batch in test_loader:
         input = batch["input"] #10000, 1024
-        input = input[0,:512] #512
+        input = input[0,:768] 
         #repeatedly predict next pixel
-        for i in range(512):
+        for i in range(256):
             with torch.no_grad():
                 output = model(input,labels=input)
             logits = output[1][-1]

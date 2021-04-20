@@ -5,6 +5,11 @@ Model is based on ImageGPT from "Generative Pretraining from Pixels"
 Data used is CIFAR-10 python dataset retrieved through
     Kaggle at https://www.kaggle.com/pankrzysiu/cifar10-python
 
+
+Sampling
+- Performance on predicting the entire second half of the image was quite poor,
+    so we instead decided to try predicting the last fourth of the image.
+
 Environment requirements:
     pytorch, huggingface, transformers, comet_ml
 
