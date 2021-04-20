@@ -16,7 +16,7 @@ torch.cuda.empty_cache()
 
 
 hyperparameters = {
-    "batch_size": 10,
+    "batch_size": 32,
     "num_epochs": 16,
     "learning_rate": .001,
     "num_heads": 5,
