@@ -16,8 +16,8 @@ torch.cuda.empty_cache()
 
 
 hyperparameters = {
-    "batch_size": 32,
-    "num_epochs": 16,
+    "batch_size": 10,
+    "num_epochs": 8,
     "learning_rate": .001,
     "num_heads": 5,
     "num_layers": 5,
@@ -52,9 +52,12 @@ def sample(model, test_loader):
     model = model.to('cpu')
     for batch in test_loader:
         input = batch["input"] #10000, 1024
-        input = input[0,:512] #512
+        original = input[0]
+        original = np.array(original)
+        original = np.reshape(original,(32,32))
+        input = input[0,:768] #768
         #repeatedly predict next pixel
-        for i in range(512):
+        for i in range(256):
             with torch.no_grad():
                 output = model(input,labels=input)
             logits = output[1][-1]
@@ -65,6 +68,8 @@ def sample(model, test_loader):
         input = np.array(input)
         input = np.reshape(input,(32,32))
         #display image
+        plt.imshow(original)
+        plt.show()
         plt.imshow(input)
         plt.show()
 
@@ -95,7 +100,7 @@ if __name__ == "__main__":
     experiment.log_parameters(hyperparameters)
     train_loader,test_loader = load_dataset([args.file1, args.file2, args.file3, args.file4, args.file5], hyperparameters["batch_size"])
     if args.load:
-        model.load_state_dict(torch.load('model_a.pt',map_location=torch.device('cpu')))
+        model.load_state_dict(torch.load('best_model.pt',map_location=torch.device('cpu')))
     if args.train:
         train(model, train_loader, optimizer, experiment)
     if args.save:
